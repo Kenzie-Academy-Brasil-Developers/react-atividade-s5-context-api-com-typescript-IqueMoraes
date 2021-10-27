@@ -1,52 +1,27 @@
 import { Product } from "../Product";
+import { useCart } from "../../Providers/Cart";
+import { useProducts } from "../../Providers/Products";
 
 interface ProductsListProps {
-    list: any;
-    buttonText: string;
-    buttonFunction: any;
-}
-
-interface Item {
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    image: string;
+    type?: string;
 }
 
 
+export const ProducsList = ({ type }:ProductsListProps) => {
 
-export const ProducsList = ({ list, buttonText, buttonFunction }:ProductsListProps) => {
-
-//   console.log(products, "aqui deveria ir a lista");
+const {addProduct, deleteProduct, cart } = useCart();
+const { products } = useProducts();
 
   return (
     <div>
-        <ul style={{"display":"flex", "flexWrap":"wrap", "listStyle":"none"}}>
-          {list?.map((item: Item) => (
-            <li key={item.id} style={{"listStyle":"none"}}>
-              <Product
-                image={item.image}
-                description={item.description}
-                title={item.title}
-                price={item.price}
-                buttonText={buttonText}
-                buttonFunction={buttonFunction(item)}
-              />
-            </li>
-          ))}
-        </ul>
-      {/* {type === "shopping" ? (
+      {type === "shopping" ? (
         <ul>
           {products?.map((item) => (
             <li key={item.id}>
               <Product
-                image={item.image}
-                description={item.description}
-                title={item.title}
-                price={item.price}
+                item={item}
                 buttonText="Adicionar ao carrinho"
-                buttonFunction={addProduct(item)}
+                buttonFunction={addProduct}
               />{" "}
             </li>
           ))}
@@ -56,17 +31,14 @@ export const ProducsList = ({ list, buttonText, buttonFunction }:ProductsListPro
           {cart?.map((item) => (
             <li key={item.id}>
               <Product
-                image={item.image}
-                description={item.description}
-                title={item.title}
-                price={item.price}
+               item={item}
                 buttonText="Remover do carrinho"
-                buttonFunction={deleteProduct(item)}
+                buttonFunction={deleteProduct}
               />{" "}
             </li>
           ))}
         </ul>
-      )} */}
+      )}
     </div>
   );
 };
